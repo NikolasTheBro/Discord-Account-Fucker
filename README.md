@@ -1,6 +1,9 @@
 # Discord-Account-Fucker
 This is a discord account/token fucker
 
+## Notice
+This isn't made by me, I have just fixed alot of stuff and improved it in some ways.
+
 ## How to use
 So first off install python 3.8, i used python 3.8.6 download link is [here](https://www.python.org/downloads/release/python-386/)
 before you start installing make sure to check the "Add to Path" checkbox right when u open installer at the bottom, here's a [screenshot](https://iileafy.has-no-bra.in/1NdAxo.png)
