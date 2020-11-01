@@ -2,7 +2,7 @@
 This is a discord account/token fucker
 
 ## Notice
-This isn't made by me, I have just fixed alot of stuff and improved it in some ways.
+This isn't made by me, I have just fixed alot of stuff and improved it in some ways, original link is [here](https://github.com/azael1337/Jajaja-Account-Nuker)
 
 ## How to use
 So first off install python 3.8, i used python 3.8.6 download link is [here](https://www.python.org/downloads/release/python-386/)
