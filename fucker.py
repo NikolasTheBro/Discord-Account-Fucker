@@ -1,9 +1,4 @@
-import threading
-import requests
-import discord
-import random
-import time
-import os
+import threading, requests, discord, random, time, os
 
 from colorama import Fore, init
 from selenium import webdriver
