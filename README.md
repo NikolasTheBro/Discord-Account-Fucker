@@ -1,6 +1,9 @@
 # Discord Account Fucker
 This is a discord account/token fucker
 
+## Discord
+* My discord is Leafy#2180
+
 ## Notice
 This isn't made by me, I have just fixed alot of stuff and improved it in some ways, original link is [here](https://github.com/azael1337/Jajaja-Account-Nuker)
 
@@ -19,13 +22,13 @@ and if you want to use the 3rd option, you will need to download chrome driver a
 and you should be done after all of that.
 
 ## Features
-Recent DM Spammer
-Recent DM Remover
-Server Leaver
-Server Deleter
-Friend Remover
-Spam switch through dark and light mode
-Spam switch through random languages
+* Recent DM Spammer
+* Recent DM Remover
+* Server Leaver
+* Server Deleter
+* Friend Remover
+* Spam switch through dark and light mode
+* Spam switch through random languages
 
 # Legality
 Everything you can see here has been made for educational purposes and proof of concepts. I do not promote the usage of my tools, I do not take responsability on the bad usage of this tool.
