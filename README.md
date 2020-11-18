@@ -23,7 +23,7 @@ and you should be done after all of that.
 * Chrome version can be found at chrome://version
 
 ## Features
-* Recent DM Spammer
+* Send Mass DM [only to people in dm list]
 * Recent DM Remover
 * Server Leaver
 * Server Deleter
