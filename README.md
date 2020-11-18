@@ -18,8 +18,9 @@ pip install colorama
 pip install requests
 pip install datetime
 ```
-and if you want to use the 3rd option, you will need to download chrome driver and make sure you download the same version as your current chrome browser otherwise it will error and not work link is [here](https://chromedriver.chromium.org/downloads) and make sure chrome driver is in the same path as the .py file
+and if you want to use the 3rd option, you will need to download chrome driver and make sure you download the same or closest version as your chrome browser otherwise it will error and not work, download link is [here](https://chromedriver.chromium.org/downloads) and make sure chrome driver is in the same path as the .py file
 and you should be done after all of that.
+* Chrome version can be found at chrome://version
 
 ## Features
 * Recent DM Spammer
