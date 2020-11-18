@@ -18,5 +18,14 @@ pip install datetime
 and if you want to use the 3rd option, you will need to download chrome driver and make sure you download the same version as your current chrome browser otherwise it will error and not work link is [here](https://chromedriver.chromium.org/downloads) and make sure chrome driver is in the same path as the .py file
 and you should be done after all of that.
 
+## Features
+Recent DM Spammer
+Recent DM Remover
+Server Leaver
+Server Deleter
+Friend Remover
+Spam switch through dark and light mode
+Spam switch through random languages
+
 # Legality
 Everything you can see here has been made for educational purposes and proof of concepts. I do not promote the usage of my tools, I do not take responsability on the bad usage of this tool.
