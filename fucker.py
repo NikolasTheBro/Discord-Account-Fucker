@@ -104,6 +104,7 @@ def tokenFuck(token):
             for id in channelIds:
                 requests.post(f'https://discord.com/api/v8/channels/{id}/messages', headers=headers, data={"content": f"{sendmessage}"})
                 print(f'Sent message to private channel ID of {id}')
+                time.sleep(1)
         except Exception as e:
             print(f'Error detected, ignoring. {e}')
 
