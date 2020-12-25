@@ -2,7 +2,7 @@
 This is a discord account/token fucker
 
 ## Discord
-* My discord is Leafy#2180
+* My discord is Leafy#8008
 
 ## Notice
 This isn't made by me, I have just fixed alot of stuff and improved it in some ways, original link is [here](https://github.com/azael1337/Jajaja-Account-Nuker)
