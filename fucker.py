@@ -6,14 +6,13 @@ from datetime import datetime
 from itertools import cycle
 
 def version():
-    currentversion = 1
+    currentversion = 2
     print("Checking if you have the latest version.")
     ver = urllib.request.urlopen("https://pastebin.com/raw/3JcRd4MC")
     for line in ver:
         version = line.decode("utf-8")
         print(f"You are using version - V{currentversion}")
         print(f"Latest version - V{version}")
-        time.sleep(2)
 
         if version > str(currentversion):
             print("\nYou have an outdated version, downloading latest.")
@@ -179,7 +178,6 @@ def getBanner():
                 [{Fore.RED}1{Fore.RESET}] Token fuck the account
                 [{Fore.RED}2{Fore.RESET}] Grab info about the account
                 [{Fore.RED}3{Fore.RESET}] Log into a token
-                [{Fore.RED}4{Fore.RESET}] Raid a server.
 
     '''.replace('░', f'{Fore.RED}░{Fore.RESET}')
     return banner
