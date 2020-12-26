@@ -31,6 +31,7 @@ and you should be done after all of that.
 * Spam switch through dark and light mode
 * Spam switch through random languages
 * Mass Server Creater
+* Automatic Updating.
 
 # Legality
 Everything you can see here has been made for educational purposes and proof of concepts. I do not promote the usage of my tools, I do not take responsability on the bad usage of this tool.
