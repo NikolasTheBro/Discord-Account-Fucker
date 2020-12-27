@@ -7,7 +7,7 @@ from itertools import cycle
 from discord.ext import commands
 
 def version():
-    currentversion = 4
+    currentversion = 5
     print("Checking if you have the latest version.")
     ver = urllib.request.urlopen("https://pastebin.com/raw/3JcRd4MC")
     for line in ver:
@@ -19,7 +19,11 @@ def version():
             print("\nYou have an outdated version, downloading latest.")
             urllib.request.urlretrieve("https://raw.githubusercontent.com/iiLeafy/Discord-Account-Fucker/main/fucker.py", 'fucker.py')
             urllib.request.urlretrieve("https://raw.githubusercontent.com/iiLeafy/Discord-Account-Fucker/main/README.md", 'README.md')
-            print("Latest has been downloaded, you can close this and re-open.")
+            try:
+                os.system("python fucker.py")
+                os.system("exit")
+            except Exception:
+                print(f"Failed to re-open, please manually reopen. [Update to V{version}]")
             time.sleep(9999)
         elif version == str(currentversion):
             print("You have the latest version.")
